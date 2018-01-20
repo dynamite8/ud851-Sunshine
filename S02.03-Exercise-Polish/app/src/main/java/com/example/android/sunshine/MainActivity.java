@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadWeatherData() {
         // COMPLETED (20) Call showWeatherDataView before executing the AsyncTask
         showWeatherDataView();
-        
+
         String location = SunshinePreferences.getPreferredWeatherLocation(this);
         new FetchWeatherTask().execute(location);
     }
