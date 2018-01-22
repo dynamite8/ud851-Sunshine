@@ -42,20 +42,16 @@ public class DetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.detail, menu);
+        MenuItem item = menu.findItem(R.id.action_share);
+        item.setIntent(createForecastShareIntent());
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_share) {
-            ShareCompat.IntentBuilder.from(this)
-                    .setType("text/plain")
-                    .setChooserTitle("Share Weather Details")
-                    .setText(mForecast)
-                    .startChooser();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    private Intent createForecastShareIntent() {
+        return IntentBuilder.from(this)
+                .setType("text/plain")
+                .setChooserTitle("Share Weather Details")
+                .setText(mForecast)
+                .getIntent();
     }
 }
