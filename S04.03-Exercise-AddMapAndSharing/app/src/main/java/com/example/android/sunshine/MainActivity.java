@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -221,8 +222,20 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
             return true;
         }
 
-        // TODO (2) Launch the map when the map menu item is clicked
-
+        // COMPLETED (2) Launch the map when the map menu item is clicked
+        if (id == R.id.action_open_map) {
+            String location = SunshinePreferences.getPreferredWeatherLocation(this);
+            Intent showMapIntent = new Intent(Intent.ACTION_VIEW);
+            Uri.Builder builder = new Uri.Builder()
+                    .scheme("geo")
+                    .path("0,0")
+                    .query(location);
+            showMapIntent.setData(builder.build());
+            if (showMapIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(showMapIntent);
+            }
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 }
