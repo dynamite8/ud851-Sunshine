@@ -1,20 +1,13 @@
 package com.example.android.sunshine;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.preference.CheckBoxPreference;
+import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import java.util.List;
 
 
 // COMPLETED (4) Create SettingsFragment and extend PreferenceFragmentCompat
@@ -35,7 +28,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 list.setSummary(labelOfValue);
             }
         } else {
-            preference.setSummary(value);
+            EditTextPreference editTextPreference = (EditTextPreference) preference;
+            editTextPreference.setSummary(value);
         }
     }
 
@@ -67,6 +61,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+
+        // Adds the preference screen to the settings fragment
         addPreferencesFromResource(R.xml.preference_screen);
 
         // Do step 9 within onCreatePreference
@@ -76,7 +72,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
         for (int i = 0; i < preferenceScreen.getPreferenceCount(); i++) {
             Preference preference = preferenceScreen.getPreference(i);
             if (!(preference instanceof CheckBoxPreference)) {
-                setPreferenceSummary(preference, "");
+                String value = sharedPreferences.getString(preference.getKey(), "");
+                setPreferenceSummary(preference, value);
             }
         }
 
