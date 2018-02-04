@@ -17,6 +17,7 @@ package com.example.android.sunshine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -41,7 +42,8 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity implements
         ForecastAdapter.ForecastAdapterOnClickHandler,
-        // TODO (3) Implement OnSharedPreferenceChangeListener on MainActivity
+        // COMPLETED (3) Implement OnSharedPreferenceChangeListener on MainActivity
+        SharedPreferences.OnSharedPreferenceChangeListener,
         LoaderCallbacks<String[]> {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -55,7 +57,10 @@ public class MainActivity extends AppCompatActivity implements
 
     private static final int FORECAST_LOADER_ID = 0;
 
-    // TODO (4) Add a private static boolean flag for preference updates and initialize it to false
+    private static final String PREFERENCE_GENERAL_NAME = "pref_general";
+
+    // COMPLETED (4) Add a private static boolean flag for preference updates and initialize it to false
+    private static boolean preferenceUpdates = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,7 +152,8 @@ public class MainActivity extends AppCompatActivity implements
 
         Log.d(TAG, "onCreate: registering preference changed listener");
 
-        // TODO (6) Register MainActivity as a OnSharedPreferenceChangedListener in onCreate
+        // COMPLETED (6) Register MainActivity as a OnSharedPreferenceChangedListener in onCreate
+        getSharedPreferences(PREFERENCE_GENERAL_NAME, MODE_PRIVATE).registerOnSharedPreferenceChangeListener(MainActivity.this);
     }
 
     /**
@@ -271,8 +277,10 @@ public class MainActivity extends AppCompatActivity implements
      * open the Common Intents page
      */
     private void openLocationInMap() {
-        // TODO (9) Use preferred location rather than a default location to display in the map
-        String addressString = "1600 Ampitheatre Parkway, CA";
+        // COMPLETED (9) Use preferred location rather than a default location to display in the map
+        String addressString = getSharedPreferences(PREFERENCE_GENERAL_NAME, MODE_PRIVATE).
+                getString(getResources().getString(R.string.pref_location_key),
+                getResources().getString(R.string.pref_location_default));
         Uri geoLocation = Uri.parse("geo:0,0?q=" + addressString);
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -329,7 +337,16 @@ public class MainActivity extends AppCompatActivity implements
 
     // TODO (7) In onStart, if preferences have been changed, refresh the data and set the flag to false
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
     // TODO (8) Override onDestroy and unregister MainActivity as a SharedPreferenceChangedListener
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -365,5 +382,9 @@ public class MainActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    // TODO (5) Override onSharedPreferenceChanged to set the preferences flag to true
+    // COMPLETED (5) Override onSharedPreferenceChanged to set the preferences flag to true
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        preferenceUpdates = true;
+    }
 }
