@@ -24,6 +24,7 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -57,10 +58,8 @@ public class MainActivity extends AppCompatActivity implements
 
     private static final int FORECAST_LOADER_ID = 0;
 
-    private static final String PREFERENCE_GENERAL_NAME = "pref_general";
-
     // COMPLETED (4) Add a private static boolean flag for preference updates and initialize it to false
-    private static boolean preferenceUpdates = false;
+    private static boolean IS_PREFERENCE_UPDATED = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +152,8 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "onCreate: registering preference changed listener");
 
         // COMPLETED (6) Register MainActivity as a OnSharedPreferenceChangedListener in onCreate
-        getSharedPreferences(PREFERENCE_GENERAL_NAME, MODE_PRIVATE).registerOnSharedPreferenceChangeListener(MainActivity.this);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     /**
@@ -278,9 +278,7 @@ public class MainActivity extends AppCompatActivity implements
      */
     private void openLocationInMap() {
         // COMPLETED (9) Use preferred location rather than a default location to display in the map
-        String addressString = getSharedPreferences(PREFERENCE_GENERAL_NAME, MODE_PRIVATE).
-                getString(getResources().getString(R.string.pref_location_key),
-                getResources().getString(R.string.pref_location_default));
+        String addressString = SunshinePreferences.getPreferredWeatherLocation(this);
         Uri geoLocation = Uri.parse("geo:0,0?q=" + addressString);
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -335,16 +333,23 @@ public class MainActivity extends AppCompatActivity implements
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
 
-    // TODO (7) In onStart, if preferences have been changed, refresh the data and set the flag to false
-
+    // COMPLETED (7) In onStart, if preferences have been changed, refresh the data and set the flag to false
     @Override
     protected void onStart() {
         super.onStart();
+
+        if (IS_PREFERENCE_UPDATED) {
+            Log.d(TAG, "Preferences have been updated");
+            getSupportLoaderManager().restartLoader(FORECAST_LOADER_ID, null, this);
+            IS_PREFERENCE_UPDATED = false;
+        }
     }
 
-    // TODO (8) Override onDestroy and unregister MainActivity as a SharedPreferenceChangedListener
+    // COMPLETED (8) Override onDestroy and unregister MainActivity as a SharedPreferenceChangedListener
     @Override
     protected void onDestroy() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
         super.onDestroy();
     }
 
@@ -385,6 +390,6 @@ public class MainActivity extends AppCompatActivity implements
     // COMPLETED (5) Override onSharedPreferenceChanged to set the preferences flag to true
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        preferenceUpdates = true;
+        IS_PREFERENCE_UPDATED = true;
     }
 }
