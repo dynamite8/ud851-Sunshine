@@ -74,7 +74,7 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
                  */
                 WeatherEntry._ID               + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 
-                WeatherEntry.COLUMN_DATE       + " INTEGER NOT NULL UNIQUE, "                 +
+                WeatherEntry.COLUMN_DATE       + " INTEGER NOT NULL, "                 +
 
                 WeatherEntry.COLUMN_WEATHER_ID + " INTEGER NOT NULL, "                 +
 
@@ -85,9 +85,10 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
                 WeatherEntry.COLUMN_PRESSURE   + " REAL NOT NULL, "                    +
 
                 WeatherEntry.COLUMN_WIND_SPEED + " REAL NOT NULL, "                    +
-                WeatherEntry.COLUMN_DEGREES    + " REAL NOT NULL" + ");";
+                WeatherEntry.COLUMN_DEGREES    + " REAL NOT NULL" +
 
 //              COMPLETE (1) Add a UNIQUE constraint on the date column to replace on conflict
+                " UNIQUE (" + WeatherEntry.COLUMN_DATE + ") ON CONFLICT REPLACE);";
 
         /*
          * After we've spelled out our SQLite table creation statement above, we actually execute
