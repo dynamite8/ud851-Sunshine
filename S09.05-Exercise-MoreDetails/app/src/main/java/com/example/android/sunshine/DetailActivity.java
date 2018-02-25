@@ -190,9 +190,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         if (id == DETAIL_ACTIVITY_LOADER_ID) {
-            Uri uri = WeatherContract.WeatherEntry.CONTENT_URI;
             String sort = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
-            return new CursorLoader(this, uri, COLUMN_NAMES, null, null, sort);
+            return new CursorLoader(this, mUri, COLUMN_NAMES, null, null, sort);
         }
         return null;
     }
