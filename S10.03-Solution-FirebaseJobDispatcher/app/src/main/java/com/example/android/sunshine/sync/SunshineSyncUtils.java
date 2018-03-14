@@ -119,7 +119,7 @@ public class SunshineSyncUtils {
 
         sInitialized = true;
 
-//      COMPLETED (13) Call the method you created to schedule a periodic weather sync
+//          COMPLETED (13) Call the method you created to schedule a periodic weather sync
         /*
          * This method call triggers Sunshine to create its task to synchronize weather data
          * periodically.
