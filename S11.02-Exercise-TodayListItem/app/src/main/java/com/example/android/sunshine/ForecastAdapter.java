@@ -139,7 +139,7 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapt
 
         weatherImageId = mUseTodayLayout ? SunshineWeatherUtils.getLargeArtResourceIdForWeatherCondition(weatherId) :
                 SunshineWeatherUtils.getSmallArtResourceIdForWeatherCondition(weatherId);
-        
+
         forecastAdapterViewHolder.iconView.setImageResource(weatherImageId);
 
         /****************
