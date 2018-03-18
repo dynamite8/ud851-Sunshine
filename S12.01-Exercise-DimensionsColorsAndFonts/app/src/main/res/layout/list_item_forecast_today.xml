@@ -25,10 +25,10 @@
   - depending on whether or not it is being touched. These can be set programmatically in Java,  -
   - but again, we wanted to avoid making things too complicated.                                 -
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<!-- TODO (10) Color the TextViews for weather data appropriately -->
-<!-- TODO (11) Color the background for today's weather data appropriately -->
-<!-- TODO (12) Replace dimension values with @dimen resources -->
-<!-- TODO (13) Use sans-serif-light font family for the temperature TextViews -->
+<!-- COMPLETED (10) Color the TextViews for weather data appropriately -->
+<!-- COMPLETED (11) Color the background for today's weather data appropriately -->
+<!-- COMPLETED (12) Replace dimension values with @dimen resources -->
+<!-- COMPLETED (13) Use sans-serif-light font family for the temperature TextViews -->
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -70,7 +70,9 @@
         app:layout_constraintBottom_toTopOf="@+id/weather_icon"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:text="Today, April 03"/>
+        tools:text="Today, April 03"
+        android:textColor="@color/primary_text"
+        android:fontFamily="sans-serif"/>
 
     <!-- Icon indicating weather condition -->
     <ImageView
@@ -82,7 +84,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/horizontal_middle"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/art_clouds"/>
+        tools:src="@drawable/art_clouds"
+        android:fontFamily="sans-serif"/>
 
     <!-- Text that describes weather condition -->
     <TextView
@@ -95,7 +98,9 @@
         app:layout_constraintLeft_toLeftOf="@+id/weather_icon"
         app:layout_constraintRight_toRightOf="@+id/weather_icon"
         app:layout_constraintTop_toBottomOf="@+id/weather_icon"
-        tools:text="Rainy"/>
+        tools:text="Rainy"
+        android:textColor="@color/primary_text"
+        android:fontFamily="sans-serif"/>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
      - High temperature for today                                                                -
@@ -116,7 +121,9 @@
         app:layout_constraintLeft_toLeftOf="@+id/horizontal_middle"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/weather_icon"
-        tools:text="19\u00b0"/>
+        tools:text="19\u00b0"
+        android:textColor="@color/primary_text"
+        android:fontFamily="sans-serif"/>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
      - Low temperature for today                                                                 -
@@ -135,6 +142,8 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/weather_description"
         app:layout_constraintLeft_toLeftOf="@+id/high_temperature"
         app:layout_constraintRight_toRightOf="@+id/high_temperature"
-        tools:text="10\u00b0"/>
+        tools:text="10\u00b0"
+        android:textColor="@color/secondary_text"
+        android:fontFamily="sans-serif"/>
 
 </android.support.constraint.ConstraintLayout>
